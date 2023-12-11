@@ -1,0 +1,210 @@
+openapi: 3.0.3
+info:
+  title: SREC - OpenAPI 0.1
+  description: Prototipo documentacion para las APIs de SREC Solutions
+  termsOfService: https://srec.solutions/legal.html
+  contact:
+    email: info@s-recsolutions.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+servers:
+  - url: https://sinvad.pre.srec.solutions
+tags:
+  - name: Sinvad
+    description: Chatbot commands
+  - name: Situm
+    description: Endpoints API Situm
+  - name: Pescados Ruben
+    description: Endpoints Pescados Ruben
+  - name: Oasis
+    description: Endpoints Oasis
+  - name: Kaleido
+    description: Endpoints Kaleido
+paths:
+  /v1/situm/pois:
+    get:
+      tags:
+        - Situm
+      summary: "Obtener todos los POIs"
+      responses:
+        '200':
+          description: "Éxito"
+          content:
+            application/json:
+              example: {}
+  /v1/situm/composeUrl:
+    post:
+      tags:
+        - Situm
+      summary: "Componer URL"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example: 
+              buildingid: "ejemploBuildingId"
+              floorid: "ejemploFloorId"
+              poiid: "ejemploPoiId"
+      responses:
+        '200':
+          description: "Éxito"
+          content:
+            application/json:
+              example: {} 
+  /v1/pruben/consultVacaciones:
+    get:
+      tags:
+        - Pescados Ruben
+      summary: "Consultar Vacaciones"
+      parameters:
+        - in: header
+          name: Authorization
+          description: "Token de autorización"
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: data
+          description: "Cuerpo de la solicitud en formato JSON"
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: "Éxito"
+          content:
+            text/plain:
+              example: "Vacaciones consultadas correctamente"  # Ejemplo de respuesta
+  /v1/oasis/executeCommand:
+    post:
+      tags:
+        - Oasis
+      summary: "Ejecutar Comando"
+      parameters:
+        - in: header
+          name: Authorization
+          description: "Token de autorización (ApiKey)"
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: body
+          description: "Cuerpo de la solicitud en formato JSON"
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: "Éxito"
+          content:
+            application/json:
+              example: {}  # Ejemplo de respuesta JSON
+  /v1/oasis/getUserList:
+    get:
+      tags:
+        - Oasis
+      summary: "Obtener Lista de Usuarios"
+      parameters:
+        - in: header
+          name: Authorization
+          description: "Token de autorización (ApiKey)"
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: timeStamp
+          description: "Marca de tiempo (opcional)"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Éxito"
+          content:
+            application/json:
+              example: {}  # Ejemplo de respuesta JSON
+  /v1/kaleido/setIncidence:
+    post:
+      tags: 
+        - Kaleido
+      summary: "Establecer Incidencia"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example: 
+              data: "Ejemplo de datos"
+              commandID: "Ejemplo de ID de comando"
+              detailResponse: "Ejemplo de respuesta detallada"
+              lang: "Ejemplo de idioma"
+      responses:
+        '200':
+          description: "Éxito"
+          content:
+            text/plain:
+              example: "Incidencia establecida correctamente"  # Ejemplo de respuesta
+  /v1/command/sinvad:
+    post:
+      tags:
+        - Sinvad
+      summary: Retrieves the content of a command
+      parameters:
+        - name: apiKey
+          in: header
+          description: apiKey del comando
+          required: true
+          schema:
+            type: string
+        - name: profileID
+          in: header
+          description: profileID del comando
+          required: true
+          schema:
+            type: string
+        - name: userPwd
+          in: header
+          description: userPwd del comando
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  commandID:
+                    type: string
+                  detailResponse:
+                    type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  commandID:
+                    type: string
+                  usageID:
+                    type: string
+                  stepID:
+                    type: string
+                  prevStepID:
+                    type: string 
+                  nextStepID:
+                    type: string
+                  text:
+                    type: string
+                  voice:
+                    type: string 
+                  commandEnd:
+                    type: string
+                  timestamp:
+                    type: string
+        '500':
+          description: Some parameter must not be null or empty
