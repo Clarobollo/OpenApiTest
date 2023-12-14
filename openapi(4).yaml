@@ -99,12 +99,18 @@ paths:
           description: Unauthorized
           content:
             application/json:
-              example: {}
+              example: {
+                "status" : "401",
+                "message" : "Unauthorized"
+              }
         '404':
           description: Not found
           content:
             application/json:
-              example: {}
+              example: {
+                "status" : "404",
+                "message" : "Not found"
+              }
   /v1/situm/pois:
     get:
       tags:
