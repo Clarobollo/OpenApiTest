@@ -94,7 +94,10 @@ paths:
           description: Successful operation
           content:
             application/json:
-              example: {}
+              example: {
+                "status" : "200",
+                "message" : "Alerta creada correctamente"
+              }
         '401':
           description: Unauthorized
           content:
