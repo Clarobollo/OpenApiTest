@@ -167,6 +167,60 @@ paths:
               example:
                 active: true
                 lang: eng
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  alerts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        alertID:
+                          type: string
+                          description: ID (if alert is pressent, other fields are optional)
+                        type:
+                          type: string
+                          description: Type of element with which is linked
+                        typeID:
+                          type: string
+                          description: SINVAD alfanumeric ID of that element
+                        date:
+                          type: string
+                          description: Date and time of the alert in UTC format
+                        text:
+                          type: string
+                          description: Text of the alert with the lenguage especified in lang
+                        active:
+                          type: boolean
+                          description: Boolean to active or deactivate the alert
+                        lang:
+                          type: string
+                          description: Language of the alert, default is 'es'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              example: {
+                "status" : "401",
+                "message" : "Unauthorized"
+              }
+        '404':
+          description: Not found
+          content:
+            application/json:
+              example: {
+                "status" : "404",
+                "message" : "Not found"
+              }
   /v1/situm/pois:
     get:
       tags:
