@@ -12,6 +12,8 @@ info:
 servers:
   - url: https://sinvad.pre.srec.solutions
 tags:
+  - name: Alert
+    description: Endpoints for alerts
   - name: Sinvad
     description: Chatbot commands
   - name: Situm
@@ -23,14 +25,85 @@ tags:
   - name: Kaleido
     description: Endpoints Kaleido
 paths:
+  /v1/alerts:
+    post:
+      tags:
+        - Alert
+      summary: Create alert
+      parameters:
+        - name: apiKey
+          in: header
+          description: apiKey del comando
+          required: true
+          schema:
+            type: string
+        - name: profileID
+          in: header
+          description: profileID del comando
+          required: true
+          schema:
+            type: string
+        - name: userPwd
+          in: header
+          description: userPwd del comando
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content: 
+          aplication/json:
+            schema:
+              type: object
+              properties:
+                alertID:
+                  type: string
+                  description: ID
+                type:
+                  type: string
+                  description: Type of element with which is linked
+                typeID:
+                  type: string
+                  description: SINVAD alfanumeric ID of that element
+                date:
+                  type: string
+                  description: Date and time of the alert in UTC format
+                text:
+                  type: string
+                  description: Text of the alert with the lenguage especified in lang
+                active:
+                  type: boolean
+                  description: Boolean to active or deactivate the alert
+                lang:
+                  type: string
+                  description: Language of the alert, default is 'es'
+              required:
+                - alertID # If alertID is present, the other fields are optional
+                - type
+                - typeID
+                - date 
+              example:
+                type: My alert
+                typeID: Some id.
+                date: command
+                text: Some text
+                active: true
+                lang: eng
+      responses:
+        '200':
+          description: Éxito
+          content:
+            application/json:
+              example: {}
+    
   /v1/situm/pois:
     get:
       tags:
         - Situm
-      summary: "Obtener todos los POIs"
+      summary: Obtener todos los POIs
       responses:
         '200':
-          description: "Éxito"
+          description: Éxito
           content:
             application/json:
               example: {}
@@ -38,112 +111,112 @@ paths:
     post:
       tags:
         - Situm
-      summary: "Componer URL"
+      summary: Componer URL
       requestBody:
         required: true
         content:
           application/json:
-            example: 
-              buildingid: "ejemploBuildingId"
-              floorid: "ejemploFloorId"
-              poiid: "ejemploPoiId"
+            example:
+              buildingid: ejemploBuildingId
+              floorid: ejemploFloorId
+              poiid: ejemploPoiId
       responses:
         '200':
-          description: "Éxito"
+          description: Éxito
           content:
             application/json:
-              example: {} 
+              example: {}
   /v1/pruben/consultVacaciones:
     get:
       tags:
         - Pescados Ruben
-      summary: "Consultar Vacaciones"
+      summary: Consultar Vacaciones
       parameters:
         - in: header
           name: Authorization
-          description: "Token de autorización"
+          description: Token de autorización
           required: true
           schema:
             type: string
         - in: query
           name: data
-          description: "Cuerpo de la solicitud en formato JSON"
+          description: Cuerpo de la solicitud en formato JSON
           required: true
           schema:
             type: object
       responses:
         '200':
-          description: "Éxito"
+          description: Éxito
           content:
             text/plain:
-              example: "Vacaciones consultadas correctamente"  # Ejemplo de respuesta
+              example: Vacaciones consultadas correctamente
   /v1/oasis/executeCommand:
     post:
       tags:
         - Oasis
-      summary: "Ejecutar Comando"
+      summary: Ejecutar Comando
       parameters:
         - in: header
           name: Authorization
-          description: "Token de autorización (ApiKey)"
+          description: Token de autorización (ApiKey)
           required: true
           schema:
             type: string
         - in: query
           name: body
-          description: "Cuerpo de la solicitud en formato JSON"
+          description: Cuerpo de la solicitud en formato JSON
           required: true
           schema:
             type: object
       responses:
         '200':
-          description: "Éxito"
+          description: Éxito
           content:
             application/json:
-              example: {}  # Ejemplo de respuesta JSON
+              example: {}
   /v1/oasis/getUserList:
     get:
       tags:
         - Oasis
-      summary: "Obtener Lista de Usuarios"
+      summary: Obtener Lista de Usuarios
       parameters:
         - in: header
           name: Authorization
-          description: "Token de autorización (ApiKey)"
+          description: Token de autorización (ApiKey)
           required: true
           schema:
             type: string
         - in: query
           name: timeStamp
-          description: "Marca de tiempo (opcional)"
+          description: Marca de tiempo (opcional)
           schema:
             type: string
       responses:
         '200':
-          description: "Éxito"
+          description: Éxito
           content:
             application/json:
-              example: {}  # Ejemplo de respuesta JSON
+              example: {}
   /v1/kaleido/setIncidence:
     post:
-      tags: 
+      tags:
         - Kaleido
-      summary: "Establecer Incidencia"
+      summary: Establecer Incidencia
       requestBody:
         required: true
         content:
           application/json:
-            example: 
-              data: "Ejemplo de datos"
-              commandID: "Ejemplo de ID de comando"
-              detailResponse: "Ejemplo de respuesta detallada"
-              lang: "Ejemplo de idioma"
+            example:
+              data: Ejemplo de datos
+              commandID: Ejemplo de ID de comando
+              detailResponse: Ejemplo de respuesta detallada
+              lang: Ejemplo de idioma
       responses:
         '200':
-          description: "Éxito"
+          description: Éxito
           content:
             text/plain:
-              example: "Incidencia establecida correctamente"  # Ejemplo de respuesta
+              example: Incidencia establecida correctamente
   /v1/command/sinvad:
     post:
       tags:
@@ -171,15 +244,15 @@ paths:
       requestBody:
         content:
           application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: string
-                  commandID:
-                    type: string
-                  detailResponse:
-                    type: string
+            schema:
+              type: object
+              properties:
+                data:
+                  type: string
+                commandID:
+                  type: string
+                detailResponse:
+                  type: string
       responses:
         '200':
           description: Successful operation
@@ -195,16 +268,17 @@ paths:
                   stepID:
                     type: string
                   prevStepID:
-                    type: string 
+                    type: string
                   nextStepID:
                     type: string
                   text:
                     type: string
                   voice:
-                    type: string 
+                    type: string
                   commandEnd:
                     type: string
                   timestamp:
                     type: string
         '500':
           description: Some parameter must not be null or empty
+components: {}
