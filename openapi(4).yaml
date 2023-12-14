@@ -114,6 +114,59 @@ paths:
                 "status" : "404",
                 "message" : "Not found"
               }
+    get:
+      tags:
+        - Alert
+      summary: Retrieves an array of alerts with theire entire data structure
+      parameters:
+        - name: apiKey
+          in: header
+          description: apiKey del comando
+          required: true
+          schema:
+            type: string
+        - name: profileID
+          in: header
+          description: profileID del comando
+          required: true
+          schema:
+            type: string
+        - name: userPwd
+          in: header
+          description: userPwd del comando
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                alertID:
+                  type: string
+                  description: SINVAD id of one alert in particular
+                type:
+                  type: string
+                  description: ID of the user
+                typeID:
+                  type: string
+                  description: SINVAD alfanumeric ID of that type element, mandatory if type is present
+                number:
+                  type: string
+                  description: Max number of alerts to retrieve
+                invert:
+                  type: boolean
+                  description: Boolean to retrieve an ordered list by ascending date (false) or descending date (true), default is false
+                active:
+                  type: boolean
+                  description: Boolean to retrieve only active alerts (true) or inactive alerts (false), default is true
+                lang:
+                  type: string
+                  description: Language of the text field of the alerts, default is 'es'
+              example:
+                active: true
+                lang: eng
   /v1/situm/pois:
     get:
       tags:
