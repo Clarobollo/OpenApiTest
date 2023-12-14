@@ -9,11 +9,24 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.11
+  x-logo:
+    url: 'https://www.s-recsolutions.com/assets/img/logo.png'
+    altText: SREC logo
 servers:
   - url: https://sinvad.pre.srec.solutions
 tags:
   - name: Alert
-    description: Endpoints for alerts
+    description: > 
+      <br>The alert service is capable of store and retrieve information about notices
+
+      Alerts are stored in the database and users can retrieve them (if they have the right permissions) using the API.
+
+      Also, alerts can be used to send automatically notifications based on the settings stored on comm_config.<br>
+      
+      <br><h2>What is an alert?</h2><br>
+
+      An alert is a system element which marks the data of a notice with a temporal mark and an optional send configuration and recipients.
+      
   - name: Sinvad
     description: Chatbot commands
   - name: Situm
